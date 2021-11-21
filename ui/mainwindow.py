@@ -57,31 +57,6 @@ class Ui_MainWindow(object):
         self.groupBox_detail.setCheckable(False)
         self.gridLayout_2 = QGridLayout(self.groupBox_detail)
         self.gridLayout_2.setObjectName(u"gridLayout_2")
-        self.label_4 = QLabel(self.groupBox_detail)
-        self.label_4.setObjectName(u"label_4")
-
-        self.gridLayout_2.addWidget(self.label_4, 2, 0, 1, 1)
-
-        self.lineEdit_company = QLineEdit(self.groupBox_detail)
-        self.lineEdit_company.setObjectName(u"lineEdit_company")
-
-        self.gridLayout_2.addWidget(self.lineEdit_company, 1, 1, 1, 1)
-
-        self.label_2 = QLabel(self.groupBox_detail)
-        self.label_2.setObjectName(u"label_2")
-
-        self.gridLayout_2.addWidget(self.label_2, 0, 0, 1, 1)
-
-        self.lineEdit_interval = QLineEdit(self.groupBox_detail)
-        self.lineEdit_interval.setObjectName(u"lineEdit_interval")
-
-        self.gridLayout_2.addWidget(self.lineEdit_interval, 2, 1, 1, 1)
-
-        self.lineEdit_process = QLineEdit(self.groupBox_detail)
-        self.lineEdit_process.setObjectName(u"lineEdit_process")
-
-        self.gridLayout_2.addWidget(self.lineEdit_process, 2, 3, 1, 1)
-
         self.lineEdit_project = QLineEdit(self.groupBox_detail)
         self.lineEdit_project.setObjectName(u"lineEdit_project")
 
@@ -97,30 +72,43 @@ class Ui_MainWindow(object):
 
         self.gridLayout_2.addWidget(self.lineEdit_name, 1, 3, 1, 1)
 
+        self.label_6 = QLabel(self.groupBox_detail)
+        self.label_6.setObjectName(u"label_6")
+
+        self.gridLayout_2.addWidget(self.label_6, 1, 2, 1, 1)
+
         self.lineEdit_date = QLineEdit(self.groupBox_detail)
         self.lineEdit_date.setObjectName(u"lineEdit_date")
 
         self.gridLayout_2.addWidget(self.lineEdit_date, 0, 3, 1, 1)
+
+        self.lineEdit_company = QLineEdit(self.groupBox_detail)
+        self.lineEdit_company.setObjectName(u"lineEdit_company")
+
+        self.gridLayout_2.addWidget(self.lineEdit_company, 1, 1, 1, 1)
+
+        self.label_2 = QLabel(self.groupBox_detail)
+        self.label_2.setObjectName(u"label_2")
+
+        self.gridLayout_2.addWidget(self.label_2, 0, 0, 1, 1)
 
         self.label_5 = QLabel(self.groupBox_detail)
         self.label_5.setObjectName(u"label_5")
 
         self.gridLayout_2.addWidget(self.label_5, 0, 2, 1, 1)
 
-        self.label_6 = QLabel(self.groupBox_detail)
-        self.label_6.setObjectName(u"label_6")
-
-        self.gridLayout_2.addWidget(self.label_6, 1, 2, 1, 1)
-
-        self.label_7 = QLabel(self.groupBox_detail)
-        self.label_7.setObjectName(u"label_7")
-
-        self.gridLayout_2.addWidget(self.label_7, 2, 2, 1, 1)
-
 
         self.gridLayout.addWidget(self.groupBox_detail, 2, 0, 1, 2)
 
         self.tableWidget = QTableWidget(self.centralwidget)
+        if (self.tableWidget.columnCount() < 3):
+            self.tableWidget.setColumnCount(3)
+        __qtablewidgetitem = QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(0, __qtablewidgetitem)
+        __qtablewidgetitem1 = QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(1, __qtablewidgetitem1)
+        __qtablewidgetitem2 = QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(2, __qtablewidgetitem2)
         self.tableWidget.setObjectName(u"tableWidget")
         self.tableWidget.setAcceptDrops(True)
         self.tableWidget.setLineWidth(7)
@@ -170,12 +158,16 @@ class Ui_MainWindow(object):
         self.label_file.setText(QCoreApplication.translate("MainWindow", u"\ud604\uc7ac \ud30c\uc77c \uc5c6\uc74c", None))
         self.label_8.setText(QCoreApplication.translate("MainWindow", u"\ud30c\uc77c\uba85", None))
         self.groupBox_detail.setTitle(QCoreApplication.translate("MainWindow", u"\uacf5\uc0ac \uc815\ubcf4 \uc218\uc815", None))
-        self.label_4.setText(QCoreApplication.translate("MainWindow", u"\uad6c\uac04\uba85", None))
-        self.label_2.setText(QCoreApplication.translate("MainWindow", u"\uacf5\uc0ac\uba85", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"\uc2dc\uacf5\uc5c5\uccb4", None))
-        self.label_5.setText(QCoreApplication.translate("MainWindow", u"\uacf5\uc0ac\uc77c\uc790", None))
         self.label_6.setText(QCoreApplication.translate("MainWindow", u"\ub2f4\ub2f9\uc790", None))
-        self.label_7.setText(QCoreApplication.translate("MainWindow", u"\uacf5\uc815\uba85", None))
+        self.label_2.setText(QCoreApplication.translate("MainWindow", u"\uacf5\uc0ac\uba85", None))
+        self.label_5.setText(QCoreApplication.translate("MainWindow", u"\uacf5\uc0ac\uc77c\uc790", None))
+        ___qtablewidgetitem = self.tableWidget.horizontalHeaderItem(0)
+        ___qtablewidgetitem.setText(QCoreApplication.translate("MainWindow", u"\uc0c8 \ud589", None));
+        ___qtablewidgetitem1 = self.tableWidget.horizontalHeaderItem(1)
+        ___qtablewidgetitem1.setText(QCoreApplication.translate("MainWindow", u"\uc0c8 \ud589", None));
+        ___qtablewidgetitem2 = self.tableWidget.horizontalHeaderItem(2)
+        ___qtablewidgetitem2.setText(QCoreApplication.translate("MainWindow", u"\uc0c8 \ud589", None));
         self.menu.setTitle(QCoreApplication.translate("MainWindow", u"\ud30c\uc77c", None))
     # retranslateUi
 
