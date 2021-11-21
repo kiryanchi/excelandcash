@@ -1,6 +1,7 @@
 import os.path
 
-from PySide6.QtWidgets import QApplication, QMainWindow, QHeaderView, QFileDialog
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QApplication, QMainWindow, QHeaderView, QFileDialog, QLabel, QWidget, QVBoxLayout
 
 from module.ExcelHandler import Excel
 from ui.mainwindow import Ui_MainWindow
@@ -8,6 +9,22 @@ from ui.mainwindow import Ui_MainWindow
 # 전역 변수
 IS_SAVED = True         # 저장 여부 확인
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))           # 파일 위치 경로
+
+
+class TableInnerWidget(QWidget):
+    def __init__(self, text=None, image=None):
+        super().__init__()
+
+        self._text = text
+        self._image = image
+
+        self.setLayout(QVBoxLayout())
+        self.text = QLabel()
+        self.image = QLabel()
+
+        self.text.setAlignment(Qt.AlignCenter)
+        self.layout().addWidget(self.text)
+        self.layout().addWidget(self.image)
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -41,6 +58,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             print(self.excel)
         except Exception as e:
             print('[에러발생]', e)
+        else:
+            self.fill_tableWidget()
+
+    def fill_tableWidget(self):
+        self.tableWidget.setRowCount(self.excel.row)
+
+        for i in range(self.excel.row):
+            for j in range(3):
+                tableInnerWidget = TableInnerWidget()
+                self.tableWidget.setCellWidget(i, j, tableInnerWidget)
+
+        for cell in self.excel.images:
+            col = 0 if cell[0] == 'A' else 2 if cell[0] == 'O' else 1
+            row = (int(cell[1:]) - 6) // 22
 
 
     def save(self):
