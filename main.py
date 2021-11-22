@@ -1,7 +1,7 @@
 import os.path
 
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QApplication, QMainWindow, QHeaderView, QFileDialog, QLabel, QWidget, QVBoxLayout
+from PySide6.QtWidgets import QApplication, QMainWindow, QHeaderView, QFileDialog, QLabel, QWidget, QVBoxLayout, QLineEdit
 
 from module.ExcelHandler import Excel
 from ui.mainwindow import Ui_MainWindow
@@ -19,7 +19,7 @@ class TableInnerWidget(QWidget):
         self._image = image
 
         self.setLayout(QVBoxLayout())
-        self.text = QLabel()
+        self.text = QLineEdit()
         self.image = QLabel()
 
         self.text.setAlignment(Qt.AlignCenter)
