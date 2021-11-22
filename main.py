@@ -1,6 +1,7 @@
 import os.path
 
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, QByteArray, QBuffer
+from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import QApplication, QMainWindow, QHeaderView, QFileDialog, QLabel, QWidget, QVBoxLayout, QLineEdit
 
 from module.ExcelHandler import Excel
@@ -12,19 +13,27 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))           # 파일 위치 
 
 
 class TableInnerWidget(QWidget):
-    def __init__(self, text=None, image=None):
+    def __init__(self):
         super().__init__()
 
-        self._text = text
-        self._image = image
-
         self.setLayout(QVBoxLayout())
-        self.text = QLineEdit()
+        self.lineEdit = QLineEdit()
         self.image = QLabel()
 
-        self.text.setAlignment(Qt.AlignCenter)
-        self.layout().addWidget(self.text)
+        self.lineEdit.setAlignment(Qt.AlignCenter)
+
+        self.layout().addWidget(self.lineEdit)
         self.layout().addWidget(self.image)
+
+    def setText(self, text):
+        self.lineEdit.setText(text)
+
+    def setImage(self, img_data):
+        data = QByteArray(img_data)
+        buffer = QBuffer(data)
+        buffer.open()
+        img = QPixmap.loadFromData(data)
+        self.image.setPixmap(img)
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -59,9 +68,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         except Exception as e:
             print('[에러발생]', e)
         else:
-            self.fill_tableWidget()
+            self.fillTableWidget()
 
-    def fill_tableWidget(self):
+    def fillTableWidget(self):
         self.tableWidget.setRowCount(self.excel.row)
 
         for i in range(self.excel.row):
@@ -72,6 +81,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         for cell in self.excel.images:
             col = 0 if cell[0] == 'A' else 2 if cell[0] == 'O' else 1
             row = (int(cell[1:]) - 6) // 22
+
+            tableInnerWidget = self.tableWidget.cellWidget(row, col)
+            img_data = self.excel.images[cell]._data()
+            tableInnerWidget.setImage(img_data)
 
 
     def save(self):
