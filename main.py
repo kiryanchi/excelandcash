@@ -30,9 +30,8 @@ class TableInnerWidget(QWidget):
 
     def setImage(self, img_data):
         data = QByteArray(img_data)
-        buffer = QBuffer(data)
-        buffer.open()
-        img = QPixmap.loadFromData(data)
+        img = QPixmap()
+        img.loadFromData(data)
         self.image.setPixmap(img)
 
 
