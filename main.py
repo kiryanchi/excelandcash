@@ -29,9 +29,12 @@ class TableInnerWidget(QWidget):
         self.lineEdit.setText(text)
 
     def setImage(self, img_data):
+        # byte 자료형으로 이루어진 사진을 QLabel에 출력
         data = QByteArray(img_data)
         img = QPixmap()
         img.loadFromData(data)
+        # 사진 크기를 칸에 맞게 수정
+        img = img.scaled(window.tableWidget.cellWidget(0,0).width(), 190 + 10)
         self.image.setPixmap(img)
 
 
@@ -45,7 +48,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # tableWidget 기본설정
         self.tableWidget.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)               # 가로 길이 너비에 맞춤
         self.tableWidget.verticalHeader().setSectionResizeMode(QHeaderView.Fixed)                   # 세로길이는 220 고정
-        self.tableWidget.setHorizontalHeaderLabels(['작업전 사진', '전주번호', '작업 후 사진'])     # 가로 탭은 항상 전, 번호, 후로 고정
+        self.tableWidget.setHorizontalHeaderLabels(['구간명/작업전 사진', '전주번호', '공정명/작업 후 사진'])     # 가로 탭은 항상 전, 번호, 후로 고정
 
         # 메뉴바 기본설정
         self.action_open.triggered.connect(self.open)
@@ -61,22 +64,37 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             return
 
         file, _ = QFileDialog.getOpenFileName(self, '엑셀 파일 선택', BASE_DIR, "Excel file (*.xlsx)")
+        # file = 'test.xlsx'  # For Test
         try:
             self.excel = Excel(file)
             print(self.excel)
         except Exception as e:
             print('[에러발생]', e)
         else:
-            self.fillTableWidget()
+            self.fillMainWindow(file)
 
-    def fillTableWidget(self):
+    def fillMainWindow(self, file):
+        # 파일 이름
+        file = file.split('/')[-1]
+        self.label_file.setText(file)
+
+        # 공사정보
+        self.lineEdit_date.setText(self.excel.sheet['Q2'].value)
+        self.lineEdit_name.setText(self.excel.sheet['Q3'].value)
+        self.lineEdit_company.setText(self.excel.sheet['B3'].value)
+        self.lineEdit_project.setText(self.excel.sheet['B2'].value)
+
+        # 공사사진
+        # 시트에 맞게 row 칸 수를 조절
         self.tableWidget.setRowCount(self.excel.row)
 
+        # 칸을 텍스트와 이미지를 표시하는 widget으로 설정
         for i in range(self.excel.row):
             for j in range(3):
                 tableInnerWidget = TableInnerWidget()
                 self.tableWidget.setCellWidget(i, j, tableInnerWidget)
 
+        # 기존 시트에 삽입된 이미지를 불러와서 보여줌
         for cell in self.excel.images:
             col = 0 if cell[0] == 'A' else 2 if cell[0] == 'O' else 1
             row = (int(cell[1:]) - 6) // 22
