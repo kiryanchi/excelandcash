@@ -103,6 +103,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             img_data = self.excel.images[cell]._data()
             tableInnerWidget.setImage(img_data)
 
+        for r in range(self.excel.row):
+            row = 22 * r + 4
+
+            # 구간명 설정
+            구간명 = self.excel.sheet[f'B{row}'].value
+            tableInnerWidget = self.tableWidget.cellWidget(r, 0)
+            tableInnerWidget.setText(구간명)
+
+            공정명 = self.excel.sheet[f'P{row}'].value
+            tableInnerWidget = self.tableWidget.cellWidget(r, 2)
+            tableInnerWidget.setText(공정명)
+
 
     def save(self):
         print("save function")
