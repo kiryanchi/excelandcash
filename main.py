@@ -1,7 +1,8 @@
 import os.path
+import io
 
 from PySide6.QtCore import Qt, QByteArray, QBuffer
-from PySide6.QtGui import QPixmap
+from PySide6.QtGui import QPixmap, QDragEnterEvent, QDropEvent, QDragMoveEvent
 from PySide6.QtWidgets import QApplication, QMainWindow, QHeaderView, QFileDialog, QLabel, QWidget, QVBoxLayout, QLineEdit
 
 from module.ExcelHandler import Excel
@@ -15,6 +16,8 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))           # 파일 위치 
 class TableInnerWidget(QWidget):
     def __init__(self):
         super().__init__()
+
+        self.setAcceptDrops(True)
 
         self.setLayout(QVBoxLayout())
         self.lineEdit = QLineEdit()
@@ -34,8 +37,31 @@ class TableInnerWidget(QWidget):
         img = QPixmap()
         img.loadFromData(data)
         # 사진 크기를 칸에 맞게 수정
-        img = img.scaled(window.tableWidget.cellWidget(0,0).width(), 190 + 10)
+        img = img.scaled(window.tableWidget.cellWidget(0, 0).width(), 190 + 10)
         self.image.setPixmap(img)
+
+    def dragEnterEvent(self, event: QDragEnterEvent) -> None:
+        if event.mimeData().hasUrls():
+            event.accept()
+        else:
+            event.ignore()
+
+    def dragMoveEvent(self, event: QDragMoveEvent) -> None:
+        if event.mimeData().hasUrls():
+            event.accept()
+        else:
+            event.ignore()
+
+    def dropEvent(self, event: QDropEvent) -> None:
+        extension = ['jpg', 'png', 'jpeg']
+        url = event.mimeData().urls()[0]
+        url = str(url.toLocalFile())
+        if url.split('.')[-1] in extension:
+            with open(url, 'rb') as f:
+                data = f.read()
+            print(data)
+            self.setImage(data)
+
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
