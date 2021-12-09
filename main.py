@@ -53,7 +53,7 @@ class TableInnerWidget(QWidget):
             event.ignore()
 
     def dropEvent(self, event: QDropEvent) -> None:
-        extension = ['jpg', 'png', 'jpeg']
+        extension = ['jpg', 'png', 'jpeg', 'JPG', 'PNG', 'JPEG']
         url = event.mimeData().urls()[0]
         url = str(url.toLocalFile())
         if url.split('.')[-1] in extension:
@@ -61,7 +61,6 @@ class TableInnerWidget(QWidget):
                 data = f.read()
             print(data)
             self.setImage(data)
-
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -143,6 +142,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 
     def save(self):
+        '''
+        저장 버튼을 누르면 sheet.images와 비교해서 셀에 이미지가 있으면, skip
+        없으면 image.data를 불러와서 excel에 삽입하기...
+        :return:
+        '''
         print("save function")
 
     def saveas(self):
