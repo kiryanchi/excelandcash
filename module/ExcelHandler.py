@@ -40,7 +40,7 @@ class Excel:
         self.sheet['B3'] = company
         self.sheet['B2'] = project
 
-    def save_image(self):
+    def save_image(self, cell, img):
         pass
 
     def __str__(self):
