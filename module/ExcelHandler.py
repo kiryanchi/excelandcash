@@ -34,5 +34,14 @@ class Excel:
 
                 self.images[cell] = image
 
+    def save_info(self, date, name, company, project):
+        self.sheet['Q2'] = date
+        self.sheet['Q3'] = name
+        self.sheet['B3'] = company
+        self.sheet['B2'] = project
+
+    def save_image(self):
+        pass
+
     def __str__(self):
         return f'row: {self.row}, images: {self.images}'
