@@ -1,10 +1,15 @@
 import string
+from io import BytesIO
+
 import openpyxl
 
 from module.MyException import NoCorrectExcelFile, ExcelNotFoundError
+from openpyxl.drawing.image import Image
+from PIL import Image as PImage
 
 IMG_SIZE = {'공사사진': (11.08, 6.82), '전주번호': (3.24, 3.71)}
-CM_TO_PIXEL = 37.795
+CM_TO_PIXEL = 37.7952755906
+
 
 class Excel:
     def __init__(self, file):
@@ -45,12 +50,22 @@ class Excel:
         deleteImage = self.images[cell]
         self.sheet._images.remove(deleteImage)
 
-    def insert_image(self, cell, img):
-        size  = IMG_SIZE['전주번호'] if cell[0] == 'I' else IMG_SIZE['공사사진']
+    def insert_image(self, cell, image_bytes):
+        bytes_io = self.resize_image(image_bytes)
+        img = Image(bytes_io)
+        size = IMG_SIZE['전주번호'] if cell[0] == 'I' else IMG_SIZE['공사사진']
         size = [cm * CM_TO_PIXEL for cm in size]
         img.width, img.height = size
 
         self.sheet.add_image(img, cell)
+
+    def resize_image(self, image_bytes):
+        pimg = PImage.open(image_bytes)
+        pimg = pimg.resize((1200, 800))
+        bytes_io = BytesIO()
+        pimg.save(bytes_io, 'PNG')
+
+        return bytes_io
 
     def __str__(self):
         return f'row: {self.row}, images: {self.images}'
