@@ -164,15 +164,15 @@ class Ui_MainWindow(object):
 
         self.gridLayout_3.addWidget(self.lineEdit_height, 0, 3, 1, 1)
 
-        self.lineEdit = QLineEdit(self.groupBox)
-        self.lineEdit.setObjectName(u"lineEdit")
+        self.lineEdit_jwidth = QLineEdit(self.groupBox)
+        self.lineEdit_jwidth.setObjectName(u"lineEdit_jwidth")
 
-        self.gridLayout_3.addWidget(self.lineEdit, 2, 1, 1, 1)
+        self.gridLayout_3.addWidget(self.lineEdit_jwidth, 2, 1, 1, 1)
 
-        self.lineEdit_2 = QLineEdit(self.groupBox)
-        self.lineEdit_2.setObjectName(u"lineEdit_2")
+        self.lineEdit_jheight = QLineEdit(self.groupBox)
+        self.lineEdit_jheight.setObjectName(u"lineEdit_jheight")
 
-        self.gridLayout_3.addWidget(self.lineEdit_2, 2, 3, 1, 1)
+        self.gridLayout_3.addWidget(self.lineEdit_jheight, 2, 3, 1, 1)
 
 
         self.gridLayout.addWidget(self.groupBox, 1, 0, 1, 10)
@@ -191,7 +191,6 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menu.menuAction())
         self.menu.addAction(self.action_open)
         self.menu.addAction(self.action_save)
-        self.menu.addAction(self.action_saveas)
         self.menu.addSeparator()
         self.menu.addAction(self.action_exit)
 
