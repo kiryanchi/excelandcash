@@ -7,12 +7,12 @@ from module.MyException import NoCorrectExcelFile, ExcelNotFoundError
 from openpyxl.drawing.image import Image
 from PIL import Image as PImage
 
-IMG_SIZE = {'공사사진': (11.08, 6.82), '전주번호': (3.24, 3.71)}
 CM_TO_PIXEL = 37.7952755906
 
 
 class Excel:
     def __init__(self, file):
+        self.IMG_SIZE = {'공사사진': (11.08, 6.82), '전주번호': (3.24, 3.71)}
         self.wb = None
         self.sheet = None
         self.images = {}
@@ -53,7 +53,7 @@ class Excel:
     def insert_image(self, cell, image_bytes):
         bytes_io = self.resize_image(image_bytes)
         img = Image(bytes_io)
-        size = IMG_SIZE['전주번호'] if cell[0] == 'I' else IMG_SIZE['공사사진']
+        size = self.IMG_SIZE['전주번호'] if cell[0] == 'I' else self.IMG_SIZE['공사사진']
         size = [cm * CM_TO_PIXEL for cm in size]
         img.width, img.height = size
 
