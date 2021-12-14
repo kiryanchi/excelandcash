@@ -1,11 +1,13 @@
 import os.path
 import io
+import json
 
 from PySide6.QtCore import Qt, QByteArray, QBuffer
 from PySide6.QtGui import QPixmap, QDragEnterEvent, QDropEvent, QDragMoveEvent
 from PySide6.QtWidgets import QApplication, QMainWindow, QHeaderView, QFileDialog, QLabel, QWidget, QVBoxLayout, \
     QLineEdit
 from openpyxl.drawing.image import Image
+from PIL import Image as PImage
 
 from module.ExcelHandler import Excel
 from ui.mainwindow import Ui_MainWindow
@@ -13,6 +15,11 @@ from ui.mainwindow import Ui_MainWindow
 # 전역 변수
 IS_SAVED = True  # 저장 여부 확인
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # 파일 위치 경로
+
+
+def make_setting():
+    with open('./setting.json', 'w') as f:
+        f.write('"width": ')
 
 
 class TableInnerWidget(QWidget):
@@ -185,11 +192,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                             continue
                     print(f'{cell}에 사진 넣는 중')
                     image_bytes = io.BytesIO(tableInnerWidget.imageData)
-                    img = Image(image_bytes)
-                    self.excel.insert_image(cell, img)
+                    self.excel.insert_image(cell, image_bytes)
 
         # 구간(공정)명
-
+        for row in range(self.tableWidget.rowCount()):
+            column = [0, 2] # 구간명, 공정명
+            cell_col = ['B', None, 'P']
+            for col in column:
+                tableInnerWidget = self.tableWidget.cellWidget(row, col)
+                cell_row = 22 * row + 4
+                text = tableInnerWidget.lineEdit.text()
+                cell = f'{cell_col[col]}{cell_row}'
+                self.excel.sheet[cell] = text
 
         self.excel.wb.save('output.xlsx')
         print('저장완료')
@@ -199,6 +213,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 
 if __name__ == '__main__':
+    if not os.path.isfile('./setting.json'):
+        make_setting()
     app = QApplication()
     window = MainWindow()
     window.show()
