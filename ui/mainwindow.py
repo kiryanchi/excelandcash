@@ -43,13 +43,29 @@ class Ui_MainWindow(object):
         self.label_file.setObjectName(u"label_file")
         self.label_file.setMaximumSize(QSize(16777215, 30))
 
-        self.gridLayout.addWidget(self.label_file, 0, 1, 1, 1)
+        self.gridLayout.addWidget(self.label_file, 0, 1, 1, 9)
 
-        self.label_8 = QLabel(self.centralwidget)
-        self.label_8.setObjectName(u"label_8")
-        self.label_8.setMaximumSize(QSize(50, 16777215))
+        self.tableWidget = QTableWidget(self.centralwidget)
+        if (self.tableWidget.columnCount() < 3):
+            self.tableWidget.setColumnCount(3)
+        __qtablewidgetitem = QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(0, __qtablewidgetitem)
+        __qtablewidgetitem1 = QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(1, __qtablewidgetitem1)
+        __qtablewidgetitem2 = QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(2, __qtablewidgetitem2)
+        self.tableWidget.setObjectName(u"tableWidget")
+        self.tableWidget.setAcceptDrops(True)
+        self.tableWidget.setLineWidth(7)
+        self.tableWidget.setDragDropMode(QAbstractItemView.NoDragDrop)
+        self.tableWidget.setAlternatingRowColors(True)
+        self.tableWidget.setSelectionMode(QAbstractItemView.SingleSelection)
+        self.tableWidget.setVerticalScrollMode(QAbstractItemView.ScrollPerPixel)
+        self.tableWidget.horizontalHeader().setCascadingSectionResizes(False)
+        self.tableWidget.verticalHeader().setCascadingSectionResizes(False)
+        self.tableWidget.verticalHeader().setDefaultSectionSize(220)
 
-        self.gridLayout.addWidget(self.label_8, 0, 0, 1, 1)
+        self.gridLayout.addWidget(self.tableWidget, 8, 0, 1, 10)
 
         self.groupBox_detail = QGroupBox(self.centralwidget)
         self.groupBox_detail.setObjectName(u"groupBox_detail")
@@ -98,29 +114,68 @@ class Ui_MainWindow(object):
         self.gridLayout_2.addWidget(self.label_5, 0, 2, 1, 1)
 
 
-        self.gridLayout.addWidget(self.groupBox_detail, 2, 0, 1, 2)
+        self.gridLayout.addWidget(self.groupBox_detail, 7, 0, 1, 10)
 
-        self.tableWidget = QTableWidget(self.centralwidget)
-        if (self.tableWidget.columnCount() < 3):
-            self.tableWidget.setColumnCount(3)
-        __qtablewidgetitem = QTableWidgetItem()
-        self.tableWidget.setHorizontalHeaderItem(0, __qtablewidgetitem)
-        __qtablewidgetitem1 = QTableWidgetItem()
-        self.tableWidget.setHorizontalHeaderItem(1, __qtablewidgetitem1)
-        __qtablewidgetitem2 = QTableWidgetItem()
-        self.tableWidget.setHorizontalHeaderItem(2, __qtablewidgetitem2)
-        self.tableWidget.setObjectName(u"tableWidget")
-        self.tableWidget.setAcceptDrops(True)
-        self.tableWidget.setLineWidth(7)
-        self.tableWidget.setDragDropMode(QAbstractItemView.NoDragDrop)
-        self.tableWidget.setAlternatingRowColors(True)
-        self.tableWidget.setSelectionMode(QAbstractItemView.SingleSelection)
-        self.tableWidget.setVerticalScrollMode(QAbstractItemView.ScrollPerPixel)
-        self.tableWidget.horizontalHeader().setCascadingSectionResizes(False)
-        self.tableWidget.verticalHeader().setCascadingSectionResizes(False)
-        self.tableWidget.verticalHeader().setDefaultSectionSize(220)
+        self.label_8 = QLabel(self.centralwidget)
+        self.label_8.setObjectName(u"label_8")
+        self.label_8.setMaximumSize(QSize(50, 16777215))
 
-        self.gridLayout.addWidget(self.tableWidget, 3, 0, 1, 2)
+        self.gridLayout.addWidget(self.label_8, 0, 0, 1, 1)
+
+        self.groupBox = QGroupBox(self.centralwidget)
+        self.groupBox.setObjectName(u"groupBox")
+        self.gridLayout_3 = QGridLayout(self.groupBox)
+        self.gridLayout_3.setObjectName(u"gridLayout_3")
+        self.label_9 = QLabel(self.groupBox)
+        self.label_9.setObjectName(u"label_9")
+        self.label_9.setAlignment(Qt.AlignCenter)
+
+        self.gridLayout_3.addWidget(self.label_9, 2, 2, 1, 1)
+
+        self.lineEdit_width = QLineEdit(self.groupBox)
+        self.lineEdit_width.setObjectName(u"lineEdit_width")
+        self.lineEdit_width.setMaximumSize(QSize(16777215, 16777215))
+
+        self.gridLayout_3.addWidget(self.lineEdit_width, 0, 1, 1, 1)
+
+        self.label = QLabel(self.groupBox)
+        self.label.setObjectName(u"label")
+        self.label.setMaximumSize(QSize(60, 16777215))
+        self.label.setAlignment(Qt.AlignCenter)
+
+        self.gridLayout_3.addWidget(self.label, 0, 0, 1, 1)
+
+        self.label_7 = QLabel(self.groupBox)
+        self.label_7.setObjectName(u"label_7")
+        self.label_7.setAlignment(Qt.AlignCenter)
+
+        self.gridLayout_3.addWidget(self.label_7, 2, 0, 1, 1)
+
+        self.label_4 = QLabel(self.groupBox)
+        self.label_4.setObjectName(u"label_4")
+        self.label_4.setMaximumSize(QSize(60, 16777215))
+        self.label_4.setAlignment(Qt.AlignCenter)
+
+        self.gridLayout_3.addWidget(self.label_4, 0, 2, 1, 1)
+
+        self.lineEdit_height = QLineEdit(self.groupBox)
+        self.lineEdit_height.setObjectName(u"lineEdit_height")
+        self.lineEdit_height.setMaximumSize(QSize(16777215, 16777215))
+
+        self.gridLayout_3.addWidget(self.lineEdit_height, 0, 3, 1, 1)
+
+        self.lineEdit = QLineEdit(self.groupBox)
+        self.lineEdit.setObjectName(u"lineEdit")
+
+        self.gridLayout_3.addWidget(self.lineEdit, 2, 1, 1, 1)
+
+        self.lineEdit_2 = QLineEdit(self.groupBox)
+        self.lineEdit_2.setObjectName(u"lineEdit_2")
+
+        self.gridLayout_3.addWidget(self.lineEdit_2, 2, 3, 1, 1)
+
+
+        self.gridLayout.addWidget(self.groupBox, 1, 0, 1, 10)
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
@@ -156,18 +211,23 @@ class Ui_MainWindow(object):
         self.action_saveas.setText(QCoreApplication.translate("MainWindow", u"\ub2e4\ub978 \uc774\ub984\uc73c\ub85c \uc800\uc7a5", None))
         self.action_exit.setText(QCoreApplication.translate("MainWindow", u"\uc885\ub8cc", None))
         self.label_file.setText(QCoreApplication.translate("MainWindow", u"\ud604\uc7ac \ud30c\uc77c \uc5c6\uc74c", None))
-        self.label_8.setText(QCoreApplication.translate("MainWindow", u"\ud30c\uc77c\uba85", None))
-        self.groupBox_detail.setTitle(QCoreApplication.translate("MainWindow", u"\uacf5\uc0ac \uc815\ubcf4 \uc218\uc815", None))
-        self.label_3.setText(QCoreApplication.translate("MainWindow", u"\uc2dc\uacf5\uc5c5\uccb4", None))
-        self.label_6.setText(QCoreApplication.translate("MainWindow", u"\ub2f4\ub2f9\uc790", None))
-        self.label_2.setText(QCoreApplication.translate("MainWindow", u"\uacf5\uc0ac\uba85", None))
-        self.label_5.setText(QCoreApplication.translate("MainWindow", u"\uacf5\uc0ac\uc77c\uc790", None))
         ___qtablewidgetitem = self.tableWidget.horizontalHeaderItem(0)
         ___qtablewidgetitem.setText(QCoreApplication.translate("MainWindow", u"\uc0c8 \ud589", None));
         ___qtablewidgetitem1 = self.tableWidget.horizontalHeaderItem(1)
         ___qtablewidgetitem1.setText(QCoreApplication.translate("MainWindow", u"\uc0c8 \ud589", None));
         ___qtablewidgetitem2 = self.tableWidget.horizontalHeaderItem(2)
         ___qtablewidgetitem2.setText(QCoreApplication.translate("MainWindow", u"\uc0c8 \ud589", None));
+        self.groupBox_detail.setTitle(QCoreApplication.translate("MainWindow", u"\uacf5\uc0ac \uc815\ubcf4 \uc218\uc815", None))
+        self.label_3.setText(QCoreApplication.translate("MainWindow", u"\uc2dc\uacf5\uc5c5\uccb4", None))
+        self.label_6.setText(QCoreApplication.translate("MainWindow", u"\ub2f4\ub2f9\uc790", None))
+        self.label_2.setText(QCoreApplication.translate("MainWindow", u"\uacf5\uc0ac\uba85", None))
+        self.label_5.setText(QCoreApplication.translate("MainWindow", u"\uacf5\uc0ac\uc77c\uc790", None))
+        self.label_8.setText(QCoreApplication.translate("MainWindow", u"\ud30c\uc77c\uba85", None))
+        self.groupBox.setTitle(QCoreApplication.translate("MainWindow", u"\uc0ac\uc9c4\ud06c\uae30(cm)", None))
+        self.label_9.setText(QCoreApplication.translate("MainWindow", u"\uc804\uc8fc\uc138\ub85c", None))
+        self.label.setText(QCoreApplication.translate("MainWindow", u"\uac00\ub85c", None))
+        self.label_7.setText(QCoreApplication.translate("MainWindow", u"\uc804\uc8fc\uac00\ub85c", None))
+        self.label_4.setText(QCoreApplication.translate("MainWindow", u"\uc138\ub85c", None))
         self.menu.setTitle(QCoreApplication.translate("MainWindow", u"\ud30c\uc77c", None))
     # retranslateUi
 
