@@ -15,11 +15,14 @@ from ui.mainwindow import Ui_MainWindow
 # 전역 변수
 IS_SAVED = True  # 저장 여부 확인
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # 파일 위치 경로
+DEFAULT_SETTINGS = {
+    "공사사진": (11.08, 6.82),
+    "전주번호": (3.24, 3.71)
+}
 
-
-def make_setting():
+def make_setting(json_dict=DEFAULT_SETTINGS):
     with open('./setting.json', 'w') as f:
-        f.write('"width": ')
+        json.dump(json_dict, f, ensure_ascii=False)
 
 
 class TableInnerWidget(QWidget):
@@ -74,7 +77,7 @@ class TableInnerWidget(QWidget):
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
-    def __init__(self, *args, obj=None, **kwargs):
+    def __init__(self, *args, obj=None, setting, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
         self.setupUi(self)
 
@@ -88,7 +91,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # 메뉴바 기본설정
         self.action_open.triggered.connect(self.open)
         self.action_save.triggered.connect(self.save)
-        self.action_saveas.triggered.connect(self.saveas)
+
+        # 크기 설정
+        self.lineEdit_width.setText(str(setting['공사사진'][0]))
+        self.lineEdit_height.setText(str(setting['공사사진'][1]))
+        self.lineEdit_jwidth.setText(str(setting['전주번호'][0]))
+        self.lineEdit_jheight.setText(str(setting['전주번호'][1]))
 
     def open(self):
         global IS_SAVED
@@ -169,6 +177,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         :return:
         '''
         print("save function")
+        setting_json = {
+            '공사사진': [float(self.lineEdit_width.text()), float(self.lineEdit_height.text())],
+            '전주번호': [float(self.lineEdit_jwidth.text()), float(self.lineEdit_jheight.text())]
+        }
+        make_setting(setting_json)
+
+        print(setting_json)
+        self.excel.IMG_SIZE = setting_json
         # 공사 정보
         self.excel.save_info(self.lineEdit_date.text(), self.lineEdit_name.text(), self.lineEdit_company.text(),
                              self.lineEdit_project.text())
@@ -205,17 +221,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 cell = f'{cell_col[col]}{cell_row}'
                 self.excel.sheet[cell] = text
 
-        self.excel.wb.save('output.xlsx')
+        fileName, _ = QFileDialog.getSaveFileName(self, '저장할 이름 선택', BASE_DIR, 'Excel file (*.xlsx)')
+        self.excel.wb.save(fileName)
         print('저장완료')
-
-    def saveas(self):
-        print("save as function")
 
 
 if __name__ == '__main__':
     if not os.path.isfile('./setting.json'):
         make_setting()
+    with open('setting.json') as f:
+        setting = json.load(f)
+    print(setting)
     app = QApplication()
-    window = MainWindow()
+    window = MainWindow(setting=setting)
     window.show()
     app.exec()
