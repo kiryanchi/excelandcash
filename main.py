@@ -3,9 +3,9 @@ import io
 import json
 
 from PySide6.QtCore import Qt, QByteArray, QBuffer
-from PySide6.QtGui import QPixmap, QDragEnterEvent, QDropEvent, QDragMoveEvent
+from PySide6.QtGui import QPixmap, QDragEnterEvent, QDropEvent, QDragMoveEvent, QKeyEvent
 from PySide6.QtWidgets import QApplication, QMainWindow, QHeaderView, QFileDialog, QLabel, QWidget, QVBoxLayout, \
-    QLineEdit
+    QLineEdit, QDialog, QPushButton
 from openpyxl.drawing.image import Image
 from PIL import Image as PImage
 
@@ -223,8 +223,34 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         fileName, _ = QFileDialog.getSaveFileName(self, '저장할 이름 선택', BASE_DIR, 'Excel file (*.xlsx)')
         self.excel.wb.save(fileName)
+
+        dialog = Modal()
+        dialog.exec()
         print('저장완료')
 
+    def keyPressEvent(self, event:QKeyEvent) -> None:
+        print(event.key())
+        if event.key() == Qt.Key_Delete:
+            print(f'{self.tableWidget.cellWidget}')
+
+class Modal(QDialog):
+    def __init__(self):
+        super().__init__()
+        self.setupUI()
+
+    def setupUI(self):
+        self.setWindowTitle('작업 완료')
+        label = QLabel('저장이 완료되었습니다.')
+        button = QPushButton("확인")
+        layout = QVBoxLayout()
+        layout.addWidget(label)
+        layout.addWidget(button)
+        self.setLayout(layout)
+
+        button.clicked.connect(self.buttonClicked)
+
+    def buttonClicked(self):
+        self.close()
 
 if __name__ == '__main__':
     if not os.path.isfile('./setting.json'):
