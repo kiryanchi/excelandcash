@@ -200,12 +200,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     cell_row = 22 * row + 6
                 cell = f'{cell_col[col]}{cell_row}'
 
+                if cell in self.excel.images:
+                    if tableInnerWidget.imageData != self.excel.images[cell]._data():
+                        self.excel.delete_image(cell)
+                    else:
+                        continue
+
                 if tableInnerWidget.imageData:
-                    if cell in self.excel.images:
-                        if tableInnerWidget.imageData != self.excel.images[cell]._data():
-                            self.excel.delete_image(cell)
-                        else:
-                            continue
                     print(f'{cell}에 사진 넣는 중')
                     image_bytes = io.BytesIO(tableInnerWidget.imageData)
                     self.excel.insert_image(cell, image_bytes)
@@ -229,9 +230,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         print('저장완료')
 
     def keyPressEvent(self, event:QKeyEvent) -> None:
-        print(event.key())
         if event.key() == Qt.Key_Delete:
-            print(f'{self.tableWidget.cellWidget}')
+            print(f'{self.tableWidget.currentColumn()}{self.tableWidget.currentRow()}')
 
 class Modal(QDialog):
     def __init__(self):
