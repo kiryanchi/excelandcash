@@ -46,6 +46,10 @@ class TableInnerWidget(QWidget):
 
     def setImage(self, img_data):
         # byte 자료형으로 이루어진 사진을 QLabel에 출력
+        if img_data == None:
+            self.imageData = None
+            self.image.clear()
+            return
         self.imageData = img_data
         data = QByteArray(img_data)
         img = QPixmap()
@@ -193,23 +197,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         for row in range(self.tableWidget.rowCount()):
             for col in range(self.tableWidget.columnCount()):
                 tableInnerWidget = self.tableWidget.cellWidget(row, col)
-                cell_col = ['A', 'I', 'O']  # 0: 공사전, 1: 전주 번호, 2: 공사후
-                if cell_col[col] == 'I':
-                    cell_row = 22 * row + 14
-                else:
-                    cell_row = 22 * row + 6
-                cell = f'{cell_col[col]}{cell_row}'
+                cell = self.excel.findCellFrowColRow(col, row)
 
                 if cell in self.excel.images:
                     if tableInnerWidget.imageData != self.excel.images[cell]._data():
-                        self.excel.delete_image(cell)
+                        self.excel.delete_image(col, row)
                     else:
                         continue
 
                 if tableInnerWidget.imageData:
                     print(f'{cell}에 사진 넣는 중')
                     image_bytes = io.BytesIO(tableInnerWidget.imageData)
-                    self.excel.insert_image(cell, image_bytes)
+                    self.excel.insert_image(col, row, image_bytes)
 
         # 구간(공정)명
         for row in range(self.tableWidget.rowCount()):
@@ -232,6 +231,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def keyPressEvent(self, event:QKeyEvent) -> None:
         if event.key() == Qt.Key_Delete:
             print(f'{self.tableWidget.currentColumn()}{self.tableWidget.currentRow()}')
+            col = self.tableWidget.currentColumn()
+            row = self.tableWidget.currentRow()
+            innerTableWidget = self.tableWidget.cellWidget(col, row)
+            innerTableWidget.setImage(None)
+
 
 class Modal(QDialog):
     def __init__(self):
