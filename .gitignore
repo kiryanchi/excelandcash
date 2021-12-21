@@ -2,3 +2,5 @@ venv/
 *.xlsx
 .idea/
 .DS_Store
+*.spec
+__pycache__/
