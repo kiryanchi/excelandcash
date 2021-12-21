@@ -46,11 +46,18 @@ class Excel:
         self.sheet['B3'] = company
         self.sheet['B2'] = project
 
-    def delete_image(self, cell):
+    def findCellFrowColRow(self, col, row):
+        cell_col = ['A', 'I', 'O']
+        cell_row = 22 * row + 14 if cell_col[col] == 'I' else 22 * row + 6
+        return f'{cell_col[col]}{cell_row}'
+
+    def delete_image(self, col, row):
+        cell = self.findCellFrowColRow(col, row)
         deleteImage = self.images[cell]
         self.sheet._images.remove(deleteImage)
 
-    def insert_image(self, cell, image_bytes):
+    def insert_image(self, col, row, image_bytes):
+        cell = self.findCellFrowColRow(col, row)
         bytes_io = self.resize_image(image_bytes)
         img = Image(bytes_io)
         size = self.IMG_SIZE['전주번호'] if cell[0] == 'I' else self.IMG_SIZE['공사사진']
